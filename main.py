@@ -1,8 +1,22 @@
 import subprocess
 import os
 import tempfile
+from rich.console import Console
+from rich.table import Table
+import tkinter as tk
 
-hinweis = '1 = KomplettReboot in Sec, 2 = Herunterfahren abbrechen, 3 = Herunterfahren in Sec, 4 = Sofortiger Neustart in die Firmware'
+console = Console()
+console.print('Hallo Kunde:thumbs_up:')
+
+hinweis = ['1. Reboot in Sec', '2. Herunterfahren abbrechen', '3. Herunterfahren in Sec', '4. Sofortiger Reboot ins BIOS']
+table = Table(title="Hinweise")
+table.add_column('Nr', style='blue')
+table.add_column('Aufgaben', style='bold blue')
+table.add_row('1', 'Reboot in Sec')
+table.add_row('2', 'Herunterfahren abbrechen')
+table.add_row('3', 'Herunterfahren in Sec')
+table.add_row('4', 'Sofortiger Reboot ins BIOS')
+
 eingabe = 99
 
 batch_script_lines = [
@@ -36,7 +50,7 @@ batch_script_lines = [
 while eingabe != 0:
 
     try:
-        print(hinweis)
+        console.print(table)
         eingabe = int(input("Bitte Wählen: "))
     except ValueError:
         print("Eingabe fehlerhaft. Nochmal eingeben!")
