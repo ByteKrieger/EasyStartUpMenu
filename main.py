@@ -1,12 +1,38 @@
 import subprocess
 import os
+import tempfile
+
 hinweis = '1 = KomplettReboot in Sec, 2 = Herunterfahren abbrechen, 3 = Herunterfahren in Sec, 4 = Sofortiger Neustart in die Firmware'
 sd = 'shutdown '
 eingabe = 99
 
-with open('uacpromt.bat', 'r') as uac:
-    uacrun = uac.read()
-    uacrun += '\nshutdown -r -fw'
+batch_script_lines = [
+    '@echo off',
+    'if "%2" == "firstrun" exit',
+    'cmd /c "%0" null firstrun',
+    'if "%1" == "skipuac" goto skipuacstart',
+    ':checkPrivileges',
+    'NET FILE 1>NUL 2>NUL',
+    'if "%errorlevel%" == "0" ( goto gotPrivileges ) else ( goto getPrivileges )',
+    ':getPrivileges',
+    'if "%1" == "ELEV" (shift & goto gotPrivileges)',
+    'setlocal DisableDelayedExpansion',
+    'set "batchPath=%~0"',
+    'setlocal EnableDelayedExpansion',
+    'ECHO Set UAC = CreateObject^("Shell.Application"^) > "%temp%\\OEgetPrivileges.vbs"',
+    'ECHO UAC.ShellExecute "!batchPath!", "ELEV", "", "runas", 1 >> "%temp%\\OEgetPrivileges.vbs"',
+    '"%temp%\\OEgetPrivileges.vbs"',
+    'exit /B',
+    ':gotPrivileges',
+    'setlocal & pushd .',
+    'cd /d %~dp0',
+    'cmd /c "%0" skipuac firstrun',
+    'cd /d %~dp0',
+    ':skipuacstart',
+    'if "%2" == "firstrun" exit',
+    'shutdown -r -fw',
+    'pause'
+]
 
 while eingabe != 0:
 
@@ -36,12 +62,18 @@ while eingabe != 0:
         except subprocess.CalledProcessError:
             print('Fehler!')
 
-
-
     elif eingabe == 4:
-        p = subprocess.Popen(["uacpromt.bat", pause], cwd=r"./")
-        stdout, stderr = p.communicate()
-        p.wait()
+
+        with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.bat') as temp_file:
+            for line in batch_script_lines:
+                temp_file.write(line + '\n')
+                temp_file.flush()
+        try:
+            subprocess.run(temp_file.name, shell=True)
+        except:
+            print('Fehler: BIOS Reboot!')
+        finally:
+            break
 
     else:
         print('END OR ERROR')
