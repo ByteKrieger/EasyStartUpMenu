@@ -3,7 +3,6 @@ import os
 import tempfile
 
 hinweis = '1 = KomplettReboot in Sec, 2 = Herunterfahren abbrechen, 3 = Herunterfahren in Sec, 4 = Sofortiger Neustart in die Firmware'
-sd = 'shutdown '
 eingabe = 99
 
 batch_script_lines = [
@@ -45,20 +44,20 @@ while eingabe != 0:
 
     if eingabe == 1:
         timer = int(input("Eingabe der Zeit: "))
-        subprocess.call(f'{sd}-g -t {timer}')
+        subprocess.call(f'shutdown -g -t {timer}')
         print('Das System schaltet sich in {timer}s ab.')
         print('test1')
 
     elif eingabe == 2:
         try:
-            subprocess.call(f'{sd}-a')
+            subprocess.call(f'shutdown -a')
         except subprocess.CalledProcessError:
             print('Fehler oder bereits abgebrochen!')
 
     elif eingabe == 3:
         try:
             timer = int(input("Eingabe der Zeit: "))
-            subprocess.call(f'{sd}-s -t {timer}')
+            subprocess.call(f'shutdown -s -t {timer}')
         except subprocess.CalledProcessError:
             print('Fehler!')
 
