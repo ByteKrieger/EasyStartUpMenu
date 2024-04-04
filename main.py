@@ -6,7 +6,6 @@ from rich.table import Table
 from time import sleep
 
 console = Console()
-console.print('Hallo Kunde:thumbs_up:')
 
 table = Table(title="Hinweise")
 table.add_column('Nr', style='blue')
@@ -47,6 +46,8 @@ batch_script_lines = [
 
 while True:
     os.system('cls')
+    console.print('Hallo Kunde:thumbs_up:', style='green bold')
+
     try:
         console.print(table)
         eingabe = int(input("Bitte Wählen: "))
