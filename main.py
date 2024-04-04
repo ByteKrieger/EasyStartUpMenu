@@ -48,7 +48,7 @@ batch_script_lines = [
 ]
 
 while True:
-
+    os.system('cls')
     try:
         console.print(table)
         eingabe = int(input("Bitte Wählen: "))
@@ -60,12 +60,12 @@ while True:
         try:
             timer = int(input("Eingabe der Zeit: "))
             subprocess.call(f'shutdown -g -t {timer}')
-            print('Das System schaltet sich in {timer}s ab.')
-            print('test1')
+            console.print('Das System schaltet sich in {timer} Sekunden ab.', style='green')
+            sleep(3)
             continue
         except ValueError:
-            console.print('Ungültiger Eingabewert', style='red bold underline')
-            sleep(2)
+            console.print('Ungültiger Eingabewert in Option 1', style='red bold underline')
+            sleep(3)
         except:
             console.print('Unbekannter Fehler in Option 1', style='red bold underline')
             continue
