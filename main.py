@@ -3,7 +3,7 @@ import os
 import tempfile
 from rich.console import Console
 from rich.table import Table
-import tkinter as tk
+from time import sleep
 
 console = Console()
 console.print('Hallo Kunde:thumbs_up:')
@@ -11,6 +11,7 @@ console.print('Hallo Kunde:thumbs_up:')
 table = Table(title="Hinweise")
 table.add_column('Nr', style='blue')
 table.add_column('Aufgaben', style='bold blue')
+table.add_row('0', 'Tool schließen')
 table.add_row('1', 'Reboot in Sec')
 table.add_row('2', 'Herunterfahren abbrechen')
 table.add_row('3', 'Herunterfahren in Sec')
@@ -46,47 +47,67 @@ batch_script_lines = [
     'pause'
 ]
 
-while eingabe != 0:
+while True:
 
     try:
         console.print(table)
         eingabe = int(input("Bitte Wählen: "))
     except ValueError:
-        print("Eingabe fehlerhaft. Nochmal eingeben!")
+        print("Eingabe fehlerhaft. Nochmals als Int. eingeben!")
         continue
 
     if eingabe == 1:
-        timer = int(input("Eingabe der Zeit: "))
-        subprocess.call(f'shutdown -g -t {timer}')
-        print('Das System schaltet sich in {timer}s ab.')
-        print('test1')
+        try:
+            timer = int(input("Eingabe der Zeit: "))
+            subprocess.call(f'shutdown -g -t {timer}')
+            print('Das System schaltet sich in {timer}s ab.')
+            print('test1')
+            continue
+        except ValueError:
+            console.print('Ungültiger Eingabewert', style='red bold underline')
+            sleep(2)
+        except:
+            console.print('Unbekannter Fehler in Option 1', style='red bold underline')
+            continue
 
     elif eingabe == 2:
         try:
             subprocess.call(f'shutdown -a')
+            sleep(2)
+            continue
         except subprocess.CalledProcessError:
-            print('Fehler oder bereits abgebrochen!')
+            console.print('Fehler oder bereits abgebrochen!', style='red bold underline')
+            continue
+        except:
+            console.print("Fehler", style='red bold underline')
+            continue
 
     elif eingabe == 3:
         try:
             timer = int(input("Eingabe der Zeit: "))
             subprocess.call(f'shutdown -s -t {timer}')
+            continue
         except subprocess.CalledProcessError:
-            print('Fehler!')
+            console.print('Subprozess Fehler', style='red bold underline')
+            continue
 
     elif eingabe == 4:
-
         with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.bat') as temp_file:
             for line in batch_script_lines:
                 temp_file.write(line + '\n')
                 temp_file.flush()
+                continue
         try:
             subprocess.run(temp_file.name, shell=True)
+            continue
         except:
-            print('Fehler: BIOS Reboot!')
+            console.print('Fehler: BIOS Reboot!', style='red bold underline')
+            continue
         finally:
-            break
-
+            continue
+    elif eingabe == 0:
+        console.print('Danke für Ihre Nutzung meines EasyStartUp Tools.', style='green bold underline')
+        break
     else:
-        print('END OR ERROR')
-        eingabe = 0
+        console.print('END OR ERROR', style='red bold underline')
+
