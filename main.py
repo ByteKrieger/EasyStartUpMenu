@@ -64,7 +64,7 @@ while True:
         try:
             timer = int(input("Eingabe der Zeit: "))
             subprocess.call(f'shutdown -g -t {timer}')
-            console.print(f'Das System schaltet sich in {timer} Sekunden ab.', style='green')
+            console.print(f'Das System startet sich in {timer} Sekunden neu.', style='green')
             sleep(3)
             continue
         except ValueError:
@@ -93,6 +93,7 @@ while True:
         try:
             timer = int(input("Eingabe der Zeit: "))
             subprocess.call(f'shutdown -s -t {timer}')
+            console.print(f'Das System schaltet sich in {timer} Sekunden ab.', style='green')
             sleep(3)
             continue
         except subprocess.CalledProcessError:
