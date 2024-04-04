@@ -107,6 +107,7 @@ while True:
             continue
     elif eingabe == 0:
         console.print('Danke für Ihre Nutzung meines EasyStartUp Tools.', style='green bold underline')
+        sleep(3)
         break
     else:
         console.print('END OR ERROR', style='red bold underline')
