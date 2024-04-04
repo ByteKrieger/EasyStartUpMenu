@@ -8,7 +8,6 @@ import tkinter as tk
 console = Console()
 console.print('Hallo Kunde:thumbs_up:')
 
-hinweis = ['1. Reboot in Sec', '2. Herunterfahren abbrechen', '3. Herunterfahren in Sec', '4. Sofortiger Reboot ins BIOS']
 table = Table(title="Hinweise")
 table.add_column('Nr', style='blue')
 table.add_column('Aufgaben', style='bold blue')
