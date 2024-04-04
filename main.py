@@ -17,8 +17,6 @@ table.add_row('2', 'Herunterfahren abbrechen')
 table.add_row('3', 'Herunterfahren in Sec')
 table.add_row('4', 'Sofortiger Reboot ins BIOS')
 
-eingabe = 99
-
 batch_script_lines = [
     '@echo off',
     'if "%2" == "firstrun" exit',
@@ -68,27 +66,32 @@ while True:
             sleep(3)
         except:
             console.print('Unbekannter Fehler in Option 1', style='red bold underline')
+            sleep(3)
             continue
 
     elif eingabe == 2:
         try:
             subprocess.call(f'shutdown -a')
-            sleep(2)
+            sleep(3)
             continue
         except subprocess.CalledProcessError:
             console.print('Fehler oder bereits abgebrochen!', style='red bold underline')
+            sleep(3)
             continue
         except:
             console.print("Fehler", style='red bold underline')
+            sleep(3)
             continue
 
     elif eingabe == 3:
         try:
             timer = int(input("Eingabe der Zeit: "))
             subprocess.call(f'shutdown -s -t {timer}')
+            sleep(3)
             continue
         except subprocess.CalledProcessError:
             console.print('Subprozess Fehler', style='red bold underline')
+            sleep(3)
             continue
 
     elif eingabe == 4:
@@ -99,16 +102,18 @@ while True:
                 continue
         try:
             subprocess.run(temp_file.name, shell=True)
+            sleep(3)
             continue
         except:
             console.print('Fehler: BIOS Reboot!', style='red bold underline')
+            sleep(3)
             continue
-        finally:
-            continue
+
     elif eingabe == 0:
         console.print('Danke für Ihre Nutzung meines EasyStartUp Tools.', style='green bold underline')
         sleep(3)
         break
+
     else:
         console.print('END OR ERROR', style='red bold underline')
 
