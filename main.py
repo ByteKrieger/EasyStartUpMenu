@@ -78,7 +78,7 @@ while True:
     elif eingabe == 2:
         try:
             subprocess.call(f'shutdown -a')
-            sleep(3)
+            sleep(1)
             continue
         except subprocess.CalledProcessError:
             console.print('Fehler oder bereits abgebrochen!', style='red bold underline')
@@ -117,7 +117,7 @@ while True:
             continue
 
     elif eingabe == 0:
-        console.print('Danke für Ihre Nutzung meines EasyStartUp Tools.', style='green bold underline')
+        console.print('Danke für Ihre Nutzung meines EasyStartUp Menu.', style='green bold underline')
         sleep(3)
         break
 
