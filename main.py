@@ -60,7 +60,7 @@ while True:
         try:
             timer = int(input("Eingabe der Zeit: "))
             subprocess.call(f'shutdown -g -t {timer}')
-            console.print('Das System schaltet sich in {timer} Sekunden ab.', style='green')
+            console.print(f'Das System schaltet sich in {timer} Sekunden ab.', style='green')
             sleep(3)
             continue
         except ValueError:
