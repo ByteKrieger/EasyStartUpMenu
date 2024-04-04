@@ -144,17 +144,5 @@ while True:
     except:
         continue
 
-def buttonBeendenClick():
-        print('check')
-        tkFenster.quit()
-        tkFenster.destroy()
-        webbrowser.open_new('https://bytekrieger.de')
-        sleep(1)
-
-tkFenster = Tk()
-tkFenster.title('Info')
-tkFenster.geometry('300x100')
-buttonBeenden = Button(master=tkFenster, bg='#FBD975', text='KLICK ME -> bytekrieger.de',
-                       command=buttonBeendenClick)
-buttonBeenden.place(x=0, y=0, width=300, height=100)
-tkFenster.mainloop()
+sleep(5)
+webbrowser.open_new('https://bytekrieger.de')
