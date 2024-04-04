@@ -4,7 +4,7 @@ import tempfile
 from rich.console import Console
 from rich.table import Table
 from time import sleep
-
+from art import *
 console = Console()
 
 table = Table(title="Hinweise")
@@ -44,9 +44,12 @@ batch_script_lines = [
     'pause'
 ]
 
+eingabe = 99
+
 while True:
     os.system('cls')
-    console.print('Hallo Kunde:thumbs_up:', style='green bold')
+    hallo = text2art('Easy Start Up Menu')
+    print(hallo)
 
     try:
         console.print(table)
