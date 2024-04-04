@@ -51,8 +51,10 @@ while True:
         console.print(table)
         eingabe = int(input("Bitte Wählen: "))
     except ValueError:
-        print("Eingabe fehlerhaft. Nochmals als Int. eingeben!")
+        console.print("Eingabe fehlerhaft. Nochmals als Int. eingeben!", style='red bold underline')
         continue
+    except:
+        console.print('Unbekannter Fehler in Eingabe', style='red bold underline')
 
     if eingabe == 1:
         try:
