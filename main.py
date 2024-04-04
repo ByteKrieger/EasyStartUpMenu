@@ -6,6 +6,8 @@ from rich.table import Table
 from time import sleep
 from art import *
 console = Console()
+from tkinter import *
+import webbrowser
 
 table = Table(title="Hinweise")
 table.add_column('Nr', style='blue')
@@ -15,6 +17,7 @@ table.add_row('1', 'Reboot in Sec')
 table.add_row('2', 'Herunterfahren abbrechen')
 table.add_row('3', 'Herunterfahren in Sec')
 table.add_row('4', 'Sofortiger Reboot ins BIOS')
+table.add_row('5', 'Sofortiger Reboot in den Abgesicherten Modus')
 
 batch_script_lines = [
     '@echo off',
@@ -47,80 +50,111 @@ batch_script_lines = [
 eingabe = 99
 
 while True:
-    os.system('cls')
-    hallo = text2art('Easy Start Up Menu')
-    print(hallo)
-
     try:
-        console.print(table)
-        eingabe = int(input("Bitte Wählen: "))
-    except ValueError:
-        console.print("Eingabe fehlerhaft. Nochmals als Int. eingeben!", style='red bold underline')
-        continue
-    except:
-        console.print('Unbekannter Fehler in Eingabe', style='red bold underline')
+        os.system('cls')
+        hallo = text2art('Easy Start Up Menu')
+        print(hallo)
 
-    if eingabe == 1:
         try:
-            timer = int(input("Eingabe der Zeit: "))
-            subprocess.call(f'shutdown -g -t {timer}')
-            console.print(f'Das System startet sich in {timer} Sekunden neu.', style='green')
-            sleep(3)
-            continue
+            console.print(table)
+            eingabe = int(input("Bitte Wählen: "))
         except ValueError:
-            console.print('Ungültiger Eingabewert in Option 1', style='red bold underline')
-            sleep(3)
-        except:
-            console.print('Unbekannter Fehler in Option 1', style='red bold underline')
-            sleep(3)
-            continue
-
-    elif eingabe == 2:
-        try:
-            subprocess.call(f'shutdown -a')
-            sleep(1)
-            continue
-        except subprocess.CalledProcessError:
-            console.print('Fehler oder bereits abgebrochen!', style='red bold underline')
-            sleep(3)
+            console.print("Eingabe fehlerhaft. Nochmals als Int. eingeben!", style='red bold underline')
+            sleep(2)
             continue
         except:
-            console.print("Fehler", style='red bold underline')
-            sleep(3)
-            continue
+            console.print('Unbekannter Fehler in Eingabe', style='red bold underline')
 
-    elif eingabe == 3:
-        try:
-            timer = int(input("Eingabe der Zeit: "))
-            subprocess.call(f'shutdown -s -t {timer}')
-            console.print(f'Das System schaltet sich in {timer} Sekunden ab.', style='green')
-            sleep(3)
-            continue
-        except subprocess.CalledProcessError:
-            console.print('Subprozess Fehler', style='red bold underline')
-            sleep(3)
-            continue
-
-    elif eingabe == 4:
-        with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.bat') as temp_file:
-            for line in batch_script_lines:
-                temp_file.write(line + '\n')
-                temp_file.flush()
+        if eingabe == 1:
+            try:
+                timer = int(input("Eingabe der Zeit: "))
+                subprocess.call(f'shutdown -g -t {timer}')
+                console.print(f'Das System startet sich in {timer} Sekunden neu.', style='green')
+                sleep(3)
                 continue
-        try:
-            subprocess.run(temp_file.name, shell=True)
-            sleep(3)
-            continue
-        except:
-            console.print('Fehler: BIOS Reboot!', style='red bold underline')
-            sleep(3)
-            continue
+            except ValueError:
+                console.print('Ungültiger Eingabewert in Option 1', style='red bold underline')
+                sleep(3)
+            except:
+                console.print('Unbekannter Fehler in Option 1', style='red bold underline')
+                sleep(3)
+                continue
 
-    elif eingabe == 0:
-        console.print('Danke für Ihre Nutzung meines EasyStartUp Menu.', style='green bold underline')
-        sleep(3)
+        elif eingabe == 2:
+            try:
+                subprocess.call(f'shutdown -a')
+                sleep(1)
+                continue
+            except subprocess.CalledProcessError:
+                console.print('Fehler oder bereits abgebrochen!', style='red bold underline')
+                sleep(3)
+                continue
+            except:
+                console.print("Fehler", style='red bold underline')
+                sleep(3)
+                continue
+
+        elif eingabe == 3:
+            try:
+                timer = int(input("Eingabe der Zeit: "))
+                subprocess.call(f'shutdown -s -t {timer}')
+                console.print(f'Das System schaltet sich in {timer} Sekunden ab.', style='green')
+                sleep(3)
+                continue
+            except subprocess.CalledProcessError:
+                console.print('Subprozess Fehler', style='red bold underline')
+                sleep(3)
+                continue
+
+        elif eingabe == 4:
+            with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.bat') as temp_file:
+                for line in batch_script_lines:
+                    temp_file.write(line + '\n')
+                    temp_file.flush()
+                    continue
+            try:
+                subprocess.run(temp_file.name, shell=True)
+                sleep(3)
+                continue
+            except:
+                console.print('Fehler: BIOS Reboot!', style='red bold underline')
+                sleep(3)
+                continue
+
+        elif eingabe == 5:
+            try:
+                subprocess.call('shutdown.exe /r /o /f /t 00')
+                console.print('STARTE ABGESICHERTEN MODUS...', style='red')
+            except subprocess.CalledProcessError:
+                console.print('Subprozess Fehler', style='red bold underline')
+                sleep(3)
+                continue
+
+        elif eingabe == 0:
+            console.print('Danke für Ihre Nutzung meines EasyStartUp Menu.', style='green bold underline')
+            sleep(3)
+            break
+
+        else:
+            console.print('END OR ERROR', style='red bold underline')
+
+    except KeyboardInterrupt:
         break
 
-    else:
-        console.print('END OR ERROR', style='red bold underline')
+    except:
+        continue
 
+def buttonBeendenClick():
+        print('check')
+        tkFenster.quit()
+        tkFenster.destroy()
+        webbrowser.open_new('https://bytekrieger.de')
+        sleep(1)
+
+tkFenster = Tk()
+tkFenster.title('Info')
+tkFenster.geometry('300x100')
+buttonBeenden = Button(master=tkFenster, bg='#FBD975', text='KLICK ME -> bytekrieger.de',
+                       command=buttonBeendenClick)
+buttonBeenden.place(x=0, y=0, width=300, height=100)
+tkFenster.mainloop()
