@@ -9,15 +9,15 @@ console = Console()
 from tkinter import *
 import webbrowser
 
-table = Table(title="Hinweise")
-table.add_column('Nr', style='blue')
-table.add_column('Aufgaben', style='bold blue')
+table = Table(title="Hinweise: ")
+table.add_column('Nr: ', style='blue')
+table.add_column('Aufgaben: ', style='bold blue')
 table.add_row('0', 'Tool schließen')
 table.add_row('1', 'Reboot in Sec')
 table.add_row('2', 'Herunterfahren abbrechen')
 table.add_row('3', 'Herunterfahren in Sec')
-table.add_row('4', 'Sofortiger Reboot ins BIOS')
-table.add_row('5', 'Sofortiger Reboot in den Abgesicherten Modus')
+table.add_row('4', 'Sofortiger Neustart ins BIOS')
+table.add_row('5', 'Sofortiger Neustart ins Windows Menu')
 table.add_row('6', 'Sofortiges Herunterfahren (force)')
 table.add_row('7', 'Sofortiges Herunterfahren (soft)')
 
