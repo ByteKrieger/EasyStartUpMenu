@@ -19,6 +19,7 @@ table.add_row('3', 'Herunterfahren in Sec')
 table.add_row('4', 'Sofortiger Reboot ins BIOS')
 table.add_row('5', 'Sofortiger Reboot in den Abgesicherten Modus')
 table.add_row('6', 'Sofortiges Herunterfahren (force)')
+table.add_row('7', 'Sofortiges Herunterfahren (soft)')
 
 batch_script_lines = [
     '@echo off',
@@ -87,7 +88,7 @@ while True:
                 sleep(1)
                 continue
             except subprocess.CalledProcessError:
-                console.print('Fehler oder bereits abgebrochen!', style='red bold underline')
+                console.print('Subprozess Fehler Option 2', style='red bold underline')
                 sleep(3)
                 continue
             except:
@@ -103,7 +104,7 @@ while True:
                 sleep(3)
                 continue
             except subprocess.CalledProcessError:
-                console.print('Subprozess Fehler', style='red bold underline')
+                console.print('Subprozess Fehler Option 3', style='red bold underline')
                 sleep(3)
                 continue
 
@@ -127,7 +128,7 @@ while True:
                 subprocess.call('shutdown.exe /r /o /f /t 00')
                 console.print('STARTE ABGESICHERTEN MODUS...', style='red')
             except subprocess.CalledProcessError:
-                console.print('Subprozess Fehler', style='red bold underline')
+                console.print('Subprozess Fehler Option 5', style='red bold underline')
                 sleep(3)
                 continue
                 
@@ -135,10 +136,18 @@ while True:
             try:
                 subprocess.call('shutdown.exe /s /f /t 00')
             except subprocess.CalledProcessError:
-                console.print('Subprozess Fehler', style='red bold underline')
+                console.print('Subprozess Fehler Option 6', style='red bold underline')
                 sleep(3)
-                continue 
-
+                continue
+                
+        elif eingabe == 7:
+            try:
+                subprocess.call('shutdown.exe /s /soft /t 00')
+            except subprocess.CalledProcessError:
+                console.print('Subprozess Fehler Option 7', style='red bold underline')
+                sleep(3)
+                continue
+                
         elif eingabe == 0:
             console.print('Danke für Ihre Nutzung meines EasyStartUp Menu.', style='green bold underline')
             sleep(3)
