@@ -154,7 +154,7 @@ while True:
             break 
 
         else:
-            console.print('END OR ERROR', style='red bold underline')
+            console.print('END', style='red bold underline')
 
     except KeyboardInterrupt:
         break
